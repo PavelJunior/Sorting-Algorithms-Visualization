@@ -198,14 +198,15 @@
 				return Math.floor(Math.random() * (max-min+1) + min);
 			},
 
-			getStylesForBar(value){
+			getStylesForBar(barHeight){
 				let windowWidth = (window.innerWidth * 0.7);
 				let width = this.arraySize == 4 ?  200 : Math.floor(windowWidth/this.arraySize);
 				let margin = Math.ceil(200/this.arraySize);
+				let height = window.innerHeight < 1000 ?  barHeight * (window.innerHeight / 1000) : barHeight;
 				return {
 					'margin-right': margin + 'px',
 					width: width + 'px',
-					height: value + 'px',
+					height: height + 'px',
 				}
 			}
 		},
