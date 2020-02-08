@@ -3,6 +3,8 @@
         <visualizer-header :inProgress="inProgress"
                            :speedFactor="speedFactor"
                            :arraySize="arraySize"
+                           :algorithms="algorithms"
+                           :speedOptions="speedOptions"
                            @startAlgorithm="runAlgorithm($event)"
                            @resetArray="resetArray"
                            @arraySizeChanged="arraySizeChanged($event)"
@@ -37,35 +39,22 @@
                 array: [],
                 inProgress: false,
                 arraySize: 30,
-                speedFactor: 1
+                speedFactor: 1,
+                algorithms: {
+                    'Bubble Sort': bubbleSort,
+                    'Insertion Sort': insertionSort,
+                    'Selection Sort': selectionSort,
+                    'Heap Sort': heapSort,
+                    'Quick Sort': quickSort,
+                    'Merge Sort': mergeSort
+                },
+                speedOptions: [50, 10, 5, 2, 1, 0.5, 0.2, 0.1, 0.02]
             }
         },
         methods: {
             runAlgorithm(algorithmName){
-                let animations = [];
-                switch (algorithmName) {
-                    case 'Bubble Sort':
-                        animations = bubbleSort(this.array.slice());
-                        break;
-                    case 'Insertion Sort':
-                        animations = insertionSort(this.array.slice());
-                        break;
-                    case 'Selection Sort':
-                        animations = selectionSort(this.array.slice());
-                        break;
-                    case 'Heap Sort':
-                        animations = heapSort(this.array.slice());
-                        break;
-                    case 'Quick Sort':
-                        animations = quickSort(this.array.slice());
-                        break;
-                    case 'Merge Sort':
-                        animations = mergeSort(this.array.slice());
-                        break;
-                    default:
-                        break;
-                }
-                this.helperMethod(animations);
+                let animations = this.algorithms[algorithmName](this.array.slice());
+                this.helperMethod(animations, algorithmName === 'Quick Sort');
             },
 
             helperMethod(animation, withPivot = false){

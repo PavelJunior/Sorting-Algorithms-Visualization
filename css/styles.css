@@ -1,7 +1,7 @@
 .array-container {
 	height: 88vh;
-	width: 90vw;
-	margin: 0 5vw;
+	width: 84vw;
+	margin: 0 8vw;
 	display: flex;
 	align-items: flex-end;
 	flex-direction: row;

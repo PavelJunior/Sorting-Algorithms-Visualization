@@ -15,14 +15,14 @@
                     <p>Sorting Speed</p>
                     <select @input="speedFactorChanged" :disabled="inProgress">
                         <option v-for="option in speedOptions"
-                                :value="option.value"
-                                :selected="option.value === speedFactor"
-                        >{{ option.stringToShow}}</option>
+                                :value="option"
+                                :selected="option === speedFactor"
+                        >{{ speedOptionToShow(option) }}</option>
                     </select>
                 </div>
             </div>
             <div class="sub-menu">
-                <div @click="startAlgorithm" v-for="algorithm in algorithms">{{ algorithm }}</div>
+                <div @click="startAlgorithm" v-for="(func, name) in algorithms">{{ name }}</div>
             </div>
         </div>
     </div>
@@ -32,24 +32,8 @@
     export default {
         name: "VisualizerHeader",
         props: [
-            'inProgress', 'speedFactor', 'arraySize'
+            'inProgress', 'speedFactor', 'arraySize', 'algorithms','speedOptions'
         ],
-        data(){
-            return {
-                algorithms: ['Bubble Sort', 'Insertion Sort', 'Selection Sort', 'Heap Sort', 'Quick Sort', 'Merge Sort'],
-                speedOptions: [
-                    {value: 50, stringToShow: '50x'},
-                    {value: 10, stringToShow: '10x'},
-                    {value: 5, stringToShow: '5x'},
-                    {value: 2, stringToShow: '2x'},
-                    {value: 1, stringToShow: '1x'},
-                    {value: 0.5, stringToShow: '1/2x'},
-                    {value: 0.2, stringToShow: '1/5x'},
-                    {value: 0.1, stringToShow: '1/10x'},
-                    {value: 0.02, stringToShow: '1/50x'},
-                ]
-            }
-        },
         methods: {
             startAlgorithm(e){
                 this.$emit('startAlgorithm', e.target.innerText);
@@ -62,6 +46,12 @@
             },
             speedFactorChanged(e){
                 this.$emit('speedFactorChanged', e.target.value)
+            },
+            speedOptionToShow(value){
+                if(value < 1){
+                    value = '1/' + 1 / value ;
+                }
+                return value + 'x';
             }
         },
         computed: {
